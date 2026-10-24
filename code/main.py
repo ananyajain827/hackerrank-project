@@ -582,7 +582,7 @@ class Auditor:
     def _pdf_observations(self, file_id: str, captured: datetime, path: Path) -> list[Observation]:
         result: list[Observation] = []
         try:
-            import fitz  # PyMuPDF; optional at runtime
+            import fitz  # type: ignore[import-not-found]  # PyMuPDF; optional at runtime
             text = "\n".join(page.get_text() for page in fitz.open(path))
         except Exception:
             return result
@@ -617,7 +617,7 @@ class Auditor:
         # When available, screenshots become ordinary searchable observations.
         try:
             from PIL import Image
-            import pytesseract
+            import pytesseract  # type: ignore[import-not-found]
             text = pytesseract.image_to_string(Image.open(path))
         except Exception:
             return []
