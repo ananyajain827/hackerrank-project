@@ -23,21 +23,26 @@ cd hackerrank-orchestrate-october26
 
 Start your AI coding tool from the **repository root** so it automatically reads [`AGENTS.md`](./AGENTS.md) and logs your session turns to `log.txt` in the root directory.
 
-Build your solution in `code/main.py`, or use another language and document its setup and run command clearly in your README.
+The repository contains a deterministic, evidence-first Python auditor in `code/main.py`. It uses only the standard library for CSV, JSON, SQL, logs, and text. PyMuPDF can add PDF text extraction; Pillow, `pytesseract`, and the Tesseract executable can add screenshot OCR. Those readers are optional, and the program runs without them.
 
-Your solution must:
-
-- Read the input files from `dataset/`
-- Generate one prediction row for every request in `dataset/deletion_requests.csv`
-- Write the final predictions to `output.csv` in the repository root
-
-Run the starter Python entry point with:
+Run the full audit from the repository root:
 
 ```bash
-python3 code/main.py
+python code/main.py
 ```
 
-The blank template at `dataset/output.csv` is provided as a reference. Your final generated file for submission must be the root-level `output.csv`.
+The program writes root-level `output.csv`. It also accepts `--dataset`, `--requests`, and `--output` for alternate input and output paths. For example, generate a prediction for the public sample and compare it with the provided answer file:
+
+```bash
+python code/main.py --requests dataset/sample_deletion_requests.csv --output sample_predictions.csv
+python code/evaluation/evaluate_sample.py sample_predictions.csv
+```
+
+The blank template at `dataset/output.csv` is a format reference. Submit the generated root-level `output.csv`.
+
+No model provider or API credentials are required. The auditor resolves current and historical identifiers, reads the participant-facing evidence manifest, filters evidence at each case's `audit_at`, applies category policy, and emits evidence-backed findings plus ordered remediation and verification steps. If the available evidence cannot prove the required final state, it keeps the case `INCOMPLETE` and emits the checks still needed.
+
+The final public-sample benchmark and usage summary are in [`code/evaluation/evaluation_report.md`](./code/evaluation/evaluation_report.md) and [`code/evaluation/usage_report.md`](./code/evaluation/usage_report.md).
 
 
 ## Dataset

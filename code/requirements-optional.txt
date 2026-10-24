@@ -1,0 +1,6 @@
+# Optional PDF text extraction
+PyMuPDF>=1.23
+
+# Optional screenshot OCR. Install the Tesseract executable separately.
+Pillow>=10
+pytesseract>=0.3.10
